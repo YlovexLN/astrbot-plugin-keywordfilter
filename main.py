@@ -12,7 +12,7 @@ class KeywordFilterPlugin(Star):
         # 从 sp 获取本地存储的规则: {session_id: [rules]}
         self.local_rules = sp.get("local_keyword_rules", {})
 
-    @filter.on_event(filter.EventMessageType.ALL)
+    @filter.event_message_type(filter.EventMessageType.ALL)
     async def interceptor(self, event: AstrMessageEvent):
         """核心拦截器逻辑"""
         message_str = event.message_str
