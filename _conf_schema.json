@@ -1,54 +1,50 @@
 {
     "rules": {
         "type": "template_list",
-        "name": "全局拦截规则列表",
         "description": "配置关键词拦截规则。匹配到的消息将不会传给 LLM。支持关键词、完全匹配和正则表达式。",
-        "template": {
-            "pattern": {
-                "type": "string",
-                "name": "匹配内容",
-                "description": "关键词、完全匹配文本或正则表达式"
-            },
-            "match_type": {
-                "type": "string",
-                "name": "匹配模式",
-                "options": ["keyword", "exact", "regex"],
-                "default": "keyword",
-                "hint": "keyword: 包含即可；exact: 必须完全一致；regex: 正则表达式"
-            },
-            "enabled": {
-                "type": "bool",
-                "name": "是否启用",
-                "default": true
-            },
-            "intercept_quote_only": {
-                "type": "bool",
-                "name": "仅拦截引用回复",
-                "description": "开启后，只有当消息是引用回复且包含关键词时才拦截",
-                "default": false
-            },
-            "apply_to_all": {
-                "type": "bool",
-                "name": "应用到所有聊天",
-                "default": true
-            },
-            "target_chats": {
-                "type": "list",
-                "name": "指定聊天 ID 列表",
-                "item_type": "string",
-                "description": "当'应用到所有聊天'关闭时，在此处填写群号或私聊 ID (Session ID)",
-                "default": []
+        "templates": {
+            "keyword_rule": {
+                "name": "关键词拦截规则",
+                "hint": "添加一个新的关键词拦截规则",
+                "items": {
+                    "pattern": {
+                        "description": "匹配内容（关键词、完全匹配文本或正则表达式）",
+                        "type": "string",
+                        "default": ""
+                    },
+                    "match_type": {
+                        "description": "匹配模式",
+                        "type": "string",
+                        "options": ["keyword", "exact", "regex"],
+                        "default": "keyword",
+                        "hint": "keyword: 包含即可；exact: 必须完全一致；regex: 正则表达式"
+                    },
+                    "enabled": {
+                        "description": "是否启用此规则",
+                        "type": "bool",
+                        "default": true
+                    },
+                    "intercept_quote_only": {
+                        "description": "仅拦截引用回复",
+                        "type": "bool",
+                        "default": false,
+                        "hint": "开启后，只有当消息是引用回复且包含关键词时才拦截"
+                    },
+                    "apply_to_all": {
+                        "description": "应用到所有聊天",
+                        "type": "bool",
+                        "default": true
+                    },
+                    "target_chats": {
+                        "description": "指定聊天 ID 列表",
+                        "type": "list",
+                        "item_type": "string",
+                        "default": [],
+                        "hint": "当'应用到所有聊天'关闭时，在此处填写群号或私聊 ID (Session ID)"
+                    }
+                }
             }
         },
-        "default": [
-            {
-                "pattern": "示例关键词",
-                "match_type": "keyword",
-                "enabled": false,
-                "intercept_quote_only": false,
-                "apply_to_all": true,
-                "target_chats": []
-            }
-        ]
+        "default": []
     }
 }
