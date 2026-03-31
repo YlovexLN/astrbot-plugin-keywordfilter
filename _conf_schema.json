@@ -1,8 +1,9 @@
 {
     "rules": {
-        "type": "template_list",
+        "type": "list",
         "description": "全局拦截规则列表",
-        "template": {
+        "item_type": "object",
+        "items": {
             "pattern": {
                 "type": "string",
                 "name": "匹配内容",
@@ -32,6 +33,7 @@
             "target_chats": {
                 "type": "list",
                 "name": "指定聊天 ID 列表",
+                "item_type": "string",
                 "default": []
             }
         },
