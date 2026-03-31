@@ -1,9 +1,9 @@
 {
     "rules": {
-        "type": "list",
-        "description": "全局拦截规则列表",
-        "item_type": "object",
-        "items": {
+        "type": "template_list",
+        "name": "全局拦截规则列表",
+        "description": "配置关键词拦截规则。匹配到的消息将不会传给 LLM。支持关键词、完全匹配和正则表达式。",
+        "template": {
             "pattern": {
                 "type": "string",
                 "name": "匹配内容",
@@ -13,7 +13,8 @@
                 "type": "string",
                 "name": "匹配模式",
                 "options": ["keyword", "exact", "regex"],
-                "default": "keyword"
+                "default": "keyword",
+                "hint": "keyword: 包含即可；exact: 必须完全一致；regex: 正则表达式"
             },
             "enabled": {
                 "type": "bool",
@@ -23,6 +24,7 @@
             "intercept_quote_only": {
                 "type": "bool",
                 "name": "仅拦截引用回复",
+                "description": "开启后，只有当消息是引用回复且包含关键词时才拦截",
                 "default": false
             },
             "apply_to_all": {
@@ -34,6 +36,7 @@
                 "type": "list",
                 "name": "指定聊天 ID 列表",
                 "item_type": "string",
+                "description": "当'应用到所有聊天'关闭时，在此处填写群号或私聊 ID (Session ID)",
                 "default": []
             }
         },
