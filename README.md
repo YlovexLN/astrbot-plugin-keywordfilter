@@ -1,14 +1,51 @@
-# astrbot-plugin-helloworld
+# AstrBot 关键词拦截插件 (astrbot_plugin_keywordfilter)
 
-AstrBot 插件模板 / A template plugin for AstrBot plugin feature
+一款为 AstrBot 开发的关键词拦截插件，旨在匹配到特定关键词时自动拦截消息，防止触发 AI 大模型。支持多种匹配模式、分群/私聊独立配置以及引用回复判断。
 
-> [!NOTE]
-> This repo is just a template of [AstrBot](https://github.com/AstrBotDevs/AstrBot) Plugin.
-> 
-> [AstrBot](https://github.com/AstrBotDevs/AstrBot) is an agentic assistant for both personal and group conversations. It can be deployed across dozens of mainstream instant messaging platforms, including QQ, Telegram, Feishu, DingTalk, Slack, LINE, Discord, Matrix, etc. In addition, it provides a reliable and extensible conversational AI infrastructure for individuals, developers, and teams. Whether you need a personal AI companion, an intelligent customer support agent, an automation assistant, or an enterprise knowledge base, AstrBot enables you to quickly build AI applications directly within your existing messaging workflows.
+## 功能特性
 
-# Supports
+- **多种匹配模式**：支持包含关键词 (keyword)、完全匹配 (exact) 和正则表达式 (regex)。
+- **分会话独立配置**：每个群聊和私聊都能单独设置拦截规则，互不干扰。
+- **引用回复判断**：可设置仅在消息为引用回复时才进行拦截。
+- **灵活管理**：
+  - **WebUI 全局管理**：在 AstrBot 管理面板配置全局生效或指定会话生效的规则。
+  - **聊天指令管理**：直接在聊天框中使用 `/kwf` 指令实时增删当前会话的规则。
+- **静默拦截**：匹配成功后仅在后台日志显示，不向用户发送额外回复，保持对话整洁。
 
-- [AstrBot Repo](https://github.com/AstrBotDevs/AstrBot)
-- [AstrBot Plugin Development Docs (Chinese)](https://docs.astrbot.app/dev/star/plugin-new.html)
-- [AstrBot Plugin Development Docs (English)](https://docs.astrbot.app/en/dev/star/plugin-new.html)
+## 安装方法
+
+1. 在 AstrBot 插件管理中安装此插件。
+2. 重启 AstrBot。
+
+## 使用说明
+
+### 聊天指令 (/kwf)
+
+直接在目标群聊或私聊中输入以下指令：
+
+- **查看规则**：`/kwf list`
+  - 显示当前会话生效的所有全局规则和本地规则。
+- **添加规则**：`/kwf add <模式> <内容> [仅引用: true/false]`
+  - `模式` 可选：`keyword` (包含)、`exact` (全匹配)、`regex` (正则)。
+  - 示例：`/kwf add keyword 抽奖`
+  - 示例：`/kwf add regex ^\d{5}$` (拦截纯5位数字)
+  - 示例：`/kwf add exact 确认拦截 true` (仅在引用回复且内容完全匹配时拦截)
+- **删除规则**：`/kwf del <内容>`
+  - 删除当前会话下对应的本地规则。
+
+### WebUI 全局配置
+
+在 AstrBot 管理面板的插件设置中：
+
+- 可以添加全局拦截规则。
+- 支持开启/关闭规则。
+- 支持设置“应用到所有聊天”或指定具体的“会话 ID”。
+
+## 依赖说明
+
+本插件无需外部第三方库依赖，仅依赖 AstrBot 框架本身。
+
+## 作者
+
+- **Author**: YlovexLN
+- **Repo**: [astrbot_plugin_keywordfilter](https://github.com/YlovexLN/astrbot_plugin_keywordfilter)
