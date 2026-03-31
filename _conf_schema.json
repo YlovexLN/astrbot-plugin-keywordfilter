@@ -5,32 +5,33 @@
         "template": {
             "pattern": {
                 "type": "string",
-                "description": "匹配内容（关键词、完全匹配文本或正则表达式）"
+                "name": "匹配内容",
+                "description": "关键词、完全匹配文本或正则表达式"
             },
             "match_type": {
                 "type": "string",
-                "description": "匹配模式",
+                "name": "匹配模式",
                 "options": ["keyword", "exact", "regex"],
                 "default": "keyword"
             },
             "enabled": {
                 "type": "bool",
-                "description": "是否启用",
+                "name": "是否启用",
                 "default": true
             },
             "intercept_quote_only": {
                 "type": "bool",
-                "description": "仅拦截引用回复",
+                "name": "仅拦截引用回复",
                 "default": false
             },
             "apply_to_all": {
                 "type": "bool",
-                "description": "应用到所有聊天",
+                "name": "应用到所有聊天",
                 "default": true
             },
             "target_chats": {
                 "type": "list",
-                "description": "指定聊天 ID 列表",
+                "name": "指定聊天 ID 列表",
                 "default": []
             }
         },
