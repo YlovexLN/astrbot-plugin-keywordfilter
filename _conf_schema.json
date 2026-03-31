@@ -40,6 +40,15 @@
                 "default": []
             }
         },
-        "default": []
+        "default": [
+            {
+                "pattern": "示例关键词",
+                "match_type": "keyword",
+                "enabled": false,
+                "intercept_quote_only": false,
+                "apply_to_all": true,
+                "target_chats": []
+            }
+        ]
     }
 }
