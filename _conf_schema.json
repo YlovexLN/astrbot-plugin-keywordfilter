@@ -1,48 +1,37 @@
 {
     "rules": {
-        "type": "array",
-        "title": "全局拦截规则",
-        "description": "在这里配置全局生效的拦截规则",
-        "items": {
-            "type": "object",
-            "required": ["pattern", "match_type", "enabled"],
-            "properties": {
-                "pattern": {
-                    "type": "string",
-                    "title": "匹配内容",
-                    "description": "关键词、完全匹配文本或正则表达式"
-                },
-                "match_type": {
-                    "type": "string",
-                    "title": "匹配模式",
-                    "enum": ["keyword", "exact", "regex"],
-                    "enumNames": ["包含关键词", "完全匹配", "正则表达式"],
-                    "default": "keyword"
-                },
-                "enabled": {
-                    "type": "boolean",
-                    "title": "启用",
-                    "default": true
-                },
-                "intercept_quote_only": {
-                    "type": "boolean",
-                    "title": "仅拦截引用回复",
-                    "default": false
-                },
-                "apply_to_all": {
-                    "type": "boolean",
-                    "title": "应用到所有聊天",
-                    "default": true
-                },
-                "target_chats": {
-                    "type": "array",
-                    "title": "指定聊天 ID",
-                    "description": "当'应用到所有聊天'关闭时生效",
-                    "items": {
-                        "type": "string"
-                    },
-                    "default": []
-                }
+        "type": "template_list",
+        "description": "全局拦截规则列表",
+        "template": {
+            "pattern": {
+                "type": "string",
+                "description": "匹配内容（关键词、完全匹配文本或正则表达式）"
+            },
+            "match_type": {
+                "type": "string",
+                "description": "匹配模式",
+                "options": ["keyword", "exact", "regex"],
+                "default": "keyword"
+            },
+            "enabled": {
+                "type": "bool",
+                "description": "是否启用",
+                "default": true
+            },
+            "intercept_quote_only": {
+                "type": "bool",
+                "description": "仅拦截引用回复",
+                "default": false
+            },
+            "apply_to_all": {
+                "type": "bool",
+                "description": "应用到所有聊天",
+                "default": true
+            },
+            "target_chats": {
+                "type": "list",
+                "description": "指定聊天 ID 列表",
+                "default": []
             }
         },
         "default": []
