@@ -1,0 +1,52 @@
+name: Auto Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Get tag name
+        id: get_tag
+        run: echo "TAG_NAME=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+
+      - name: Create Release Zip
+        run: |
+          # 获取插件名称（从 metadata.yaml 或目录名）
+          PLUGIN_NAME="astrbot_plugin_keywordfilter"
+          ZIP_NAME="${PLUGIN_NAME}-${{ steps.get_tag.outputs.TAG_NAME }}.zip"
+          
+          # 创建临时目录并复制文件
+          mkdir -p "dist/${PLUGIN_NAME}"
+          cp -r . "dist/${PLUGIN_NAME}/"
+          
+          # 清理不需要的文件
+          cd "dist/${PLUGIN_NAME}"
+          rm -rf .git .github .gitignore __pycache__ .vscode .idea .trae *.zip
+          cd ..
+          
+          # 打包
+          zip -r "../${ZIP_NAME}" "${PLUGIN_NAME}"
+          cd ..
+          
+          echo "ZIP_PATH=${ZIP_NAME}" >> $GITHUB_OUTPUT
+        id: pack
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: "*.zip"
+          name: Release ${{ steps.get_tag.outputs.TAG_NAME }}
+          draft: false
+          prerelease: false
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
