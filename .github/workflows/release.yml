@@ -20,22 +20,19 @@ jobs:
 
       - name: Create Release Zip
         run: |
-          # 获取插件名称（从 metadata.yaml 或目录名）
           PLUGIN_NAME="astrbot_plugin_keywordfilter"
           ZIP_NAME="${PLUGIN_NAME}-${{ steps.get_tag.outputs.TAG_NAME }}.zip"
           
-          # 创建临时目录并复制文件
-          mkdir -p "dist/${PLUGIN_NAME}"
-          cp -r . "dist/${PLUGIN_NAME}/"
+          # 创建一个临时的构建目录（在当前目录之外）
+          BUILD_DIR="/tmp/plugin_build"
+          mkdir -p "${BUILD_DIR}/${PLUGIN_NAME}"
           
-          # 清理不需要的文件
-          cd "dist/${PLUGIN_NAME}"
-          rm -rf .git .github .gitignore __pycache__ .vscode .idea .trae *.zip
-          cd ..
+          # 复制除 dist 目录外的所有文件
+          rsync -av --exclude='.git' --exclude='.github' --exclude='.gitignore' --exclude='__pycache__' --exclude='.vscode' --exclude='.idea' --exclude='.trae' --exclude='*.zip' ./ "${BUILD_DIR}/${PLUGIN_NAME}/"
           
           # 打包
-          zip -r "../${ZIP_NAME}" "${PLUGIN_NAME}"
-          cd ..
+          cd "${BUILD_DIR}"
+          zip -r "${GITHUB_WORKSPACE}/${ZIP_NAME}" "${PLUGIN_NAME}"
           
           echo "ZIP_PATH=${ZIP_NAME}" >> $GITHUB_OUTPUT
         id: pack
