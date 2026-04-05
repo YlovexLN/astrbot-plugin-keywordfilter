@@ -4,7 +4,7 @@ from astrbot.api import logger, sp
 from astrbot.api.message_components import Reply, Plain
 import re
 
-@register("astrbot_plugin_keywordfilter", "YlovexLN", "关键词拦截插件，支持正则、完全匹配、关键词匹配，防止触发 AI 大模型，支持分群/私聊单独配置。", "0.0.1")
+@register("astrbot_plugin_keywordfilter", "YlovexLN", "关键词拦截插件，支持正则、完全匹配、关键词匹配，防止触发 AI 大模型，支持分群/私聊单独配置。", "0.0.2")
 class KeywordFilterPlugin(Star):
     def __init__(self, context: Context, config: dict):
         super().__init__(context)
