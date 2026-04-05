@@ -1,4 +1,4 @@
-# AstrBot 关键词拦截插件 (astrbot_plugin_keywordfilter)
+# AstrBot 关键词拦截插件 (astrbot-plugin-keywordfilter)
 
 一款为 AstrBot 开发的关键词拦截插件，旨在匹配到特定关键词时自动拦截消息，防止触发 AI 大模型。支持多种匹配模式、分群/私聊独立配置以及引用回复判断。
 
@@ -45,7 +45,6 @@
 
 本插件无需外部第三方库依赖，仅依赖 AstrBot 框架本身。
 
-## 作者
+## 鸣谢
 
-- **Author**: YlovexLN
-- **Repo**: [astrbot_plugin_keywordfilter](https://github.com/YlovexLN/astrbot_plugin_keywordfilter)
+- **Trae**: 全程AI开发本插件。

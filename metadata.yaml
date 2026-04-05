@@ -1,6 +1,6 @@
-name: astrbot_plugin_keywordfilter
+name: astrbot-plugin-keywordfilter
 display_name: 关键词拦截
 desc: 匹配关键词自动拦截，防止触发 AI 大模型，支持分群聊/私聊单独配置及引用回复判断。
-version: v0.0.1
+version: v0.0.2
 author: YlovexLN
-repo: https://github.com/YlovexLN/astrbot_plugin_keywordfilter
+repo: https://github.com/YlovexLN/astrbot-plugin-keywordfilter
