@@ -7,10 +7,10 @@
                 "name": "关键词拦截规则",
                 "hint": "添加一个新的关键词拦截规则",
                 "items": {
-                    "name": {
+                    "pattern": {
                         "description": "匹配内容",
                         "type": "string",
-                        "default": "关键词拦截规则",
+                        "default": "",
                         "hint": "关键词拦截规则的匹配内容"
                     },
                     "match_type": {

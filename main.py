@@ -4,7 +4,7 @@ from astrbot.api import logger, sp
 from astrbot.api.message_components import Reply, Plain
 import re
 
-@register("astrbot_plugin_keywordfilter", "YlovexLN", "关键词拦截插件，支持正则、完全匹配、关键词匹配，防止触发 AI 大模型，支持分群/私聊单独配置。", "0.0.2")
+@register("astrbot_plugin_keywordfilter", "YlovexLN", "关键词拦截插件，支持正则、完全匹配、关键词匹配，防止触发 AI 大模型，支持分群/私聊单独配置。", "0.0.3")
 class KeywordFilterPlugin(Star):
     def __init__(self, context: Context, config: dict):
         super().__init__(context)
@@ -27,7 +27,7 @@ class KeywordFilterPlugin(Star):
         global_rules = self.config.get("rules", [])
         for rule in global_rules:
             if self._check_match(rule, message_str, is_quote, session_id, is_global=True):
-                logger.info(f"[KeywordFilter] 匹配到全局拦截规则 ({rule.get('match_type')}): '{rule.get('name')}'，会话: {session_id}")
+                logger.info(f"[KeywordFilter] 匹配到全局拦截规则 ({rule.get('match_type')}): '{rule.get('pattern')}'，会话: {session_id}")
                 event.stop_event()
                 return
 
@@ -35,7 +35,7 @@ class KeywordFilterPlugin(Star):
         chat_rules = self.local_rules.get(session_id, [])
         for rule in chat_rules:
             if self._check_match(rule, message_str, is_quote, session_id, is_global=False):
-                logger.info(f"[KeywordFilter] 匹配到本地拦截规则 ({rule.get('match_type')}): '{rule.get('name')}'，会话: {session_id}")
+                logger.info(f"[KeywordFilter] 匹配到本地拦截规则 ({rule.get('match_type')}): '{rule.get('pattern')}'，会话: {session_id}")
                 event.stop_event()
                 return
 
@@ -44,7 +44,7 @@ class KeywordFilterPlugin(Star):
         if not rule.get("enabled", True):
             return False
         
-        pattern = rule.get("name")
+        pattern = rule.get("pattern")
         match_type = rule.get("match_type", "keyword")
         if not pattern:
             return False
@@ -109,12 +109,12 @@ class KeywordFilterPlugin(Star):
                 res += "【全局规则】:\n"
                 for r in global_rules:
                     q = "(仅引用)" if r.get("intercept_quote_only") else ""
-                    res += f"- [{r.get('match_type')}] {r.get('name')} {q}\n"
+                    res += f"- [{r.get('match_type')}] {r.get('pattern')} {q}\n"
             if local_rules:
                 res += "【本地规则】:\n"
                 for r in local_rules:
                     q = "(仅引用)" if r.get("intercept_quote_only") else ""
-                    res += f"- [{r.get('match_type')}] {r.get('name')} {q}\n"
+                    res += f"- [{r.get('match_type')}] {r.get('pattern')} {q}\n"
             yield event.plain_result(res.strip())
 
         elif cmd == "add":
@@ -135,12 +135,12 @@ class KeywordFilterPlugin(Star):
             
             # 避免重复
             for r in self.local_rules[session_id]:
-                if r.get('name') == pattern and r.get('match_type') == m_type:
+                if r.get('pattern') == pattern and r.get('match_type') == m_type:
                     yield event.plain_result(f"规则 '{pattern}' ({m_type}) 已存在。")
                     return
             
             self.local_rules[session_id].append({
-                "name": pattern,
+                "pattern": pattern,
                 "match_type": m_type,
                 "intercept_quote_only": quote_only,
                 "enabled": True
@@ -159,7 +159,7 @@ class KeywordFilterPlugin(Star):
                 return
             
             orig_len = len(self.local_rules[session_id])
-            self.local_rules[session_id] = [r for r in self.local_rules[session_id] if r.get('name') != pattern]
+            self.local_rules[session_id] = [r for r in self.local_rules[session_id] if r.get('pattern') != pattern]
             
             if len(self.local_rules[session_id]) < orig_len:
                 sp.put("local_keyword_rules", self.local_rules)
