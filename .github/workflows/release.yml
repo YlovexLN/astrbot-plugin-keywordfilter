@@ -21,6 +21,7 @@ jobs:
       - name: Create Release Zip
         run: |
           PLUGIN_NAME="astrbot_plugin_keywordfilter"
+          # 使用 astrbot_plugin_keywordfilter-版本号.zip 的格式
           ZIP_NAME="${PLUGIN_NAME}-${{ steps.get_tag.outputs.TAG_NAME }}.zip"
           
           # 创建一个临时的构建目录（在当前目录之外）
